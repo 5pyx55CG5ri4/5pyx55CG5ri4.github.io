@@ -1,5 +1,13 @@
 最近想整点副业 想做小说推文 找了些文字转语音工具 发现大部分都有字数限制 于是自己开发了一个 基于开源的edge-tts 带图形化界面(虽然有点丑)
 
+仅支持windows
+
+支持文字转语音 调整音色 语速 语调
+
+
+[github地址](https://github.com/5pyx55CG5ri4/TTS)
+
+[releases](https://github.com/5pyx55CG5ri4/TTS/releases)
 ```python
 import asyncio
 import threading

@@ -11,6 +11,14 @@
     </script>
 <meta name="description" content="最近想整点副业 想做小说推文 找了些文字转语音工具 发现大部分都有字数限制 于是自己开发了一个 基于开源的edge-tts 带图形化界面(虽然有点丑)
 
+仅支持windows
+
+支持文字转语音 调整音色 语速 语调
+
+
+[github地址](https://github.com/5pyx55CG5ri4/TTS)
+
+[releases](https://github.com/5pyx55CG5ri4/TTS/releases)
 ```python
 import asyncio
 import threading
@@ -150,6 +158,14 @@ if __name__ == '__main__':
 <meta property="og:title" content="基于edge-tts的文字转语音工具-python">
 <meta property="og:description" content="最近想整点副业 想做小说推文 找了些文字转语音工具 发现大部分都有字数限制 于是自己开发了一个 基于开源的edge-tts 带图形化界面(虽然有点丑)
 
+仅支持windows
+
+支持文字转语音 调整音色 语速 语调
+
+
+[github地址](https://github.com/5pyx55CG5ri4/TTS)
+
+[releases](https://github.com/5pyx55CG5ri4/TTS/releases)
 ```python
 import asyncio
 import threading
@@ -339,6 +355,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><p>最近想整点副业 想做小说推文 找了些文字转语音工具 发现大部分都有字数限制 于是自己开发了一个 基于开源的edge-tts 带图形化界面(虽然有点丑)</p>
+<p>仅支持windows</p>
+<p>支持文字转语音 调整音色 语速 语调</p>
+<p><a href="https://github.com/5pyx55CG5ri4/TTS">github地址</a></p>
+<p><a href="https://github.com/5pyx55CG5ri4/TTS/releases">releases</a></p>
 <div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">asyncio</span>
 <span class="pl-k">import</span> <span class="pl-s1">threading</span>
 <span class="pl-k">import</span> <span class="pl-s1">tkinter</span> <span class="pl-k">as</span> <span class="pl-s1">tk</span>
@@ -602,7 +622,11 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n\n","padding:5p
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
 function openComments(){
     cm=document.getElementById("comments");
     cmButton=document.getElementById("cmButton");
