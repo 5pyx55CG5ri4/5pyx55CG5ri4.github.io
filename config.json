@@ -12,7 +12,7 @@
     "i18n":"CN",
     "themeMode":"fix",
     "dayTheme":"dark",
-    "nightTheme":"dark-blue",
+    "nightTheme":"dark_colorblind",
     "bottomText":"😍陪你度过漫长岁月😍",
     "ogImage":"https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg",
     "showPostSource":0,
