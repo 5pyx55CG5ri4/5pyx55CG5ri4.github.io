@@ -237,7 +237,7 @@ public class AsyncHandleUtil {
 <meta property="og:url" content="https://blog.000828.top//post/Java--xian-cheng-gong-ju.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
 <title>Java-线程工具</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 </head>
 <style>
@@ -301,107 +301,109 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 <div class="markdown-body" id="postBody"><p>1.多个线程并行执行,主线程阻塞等待所有子线程执行完(CountDownLatch实现)<br>
 源码:</p>
-<div class="highlight highlight-source-java"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">java</span>.<span class="pl-s1">util</span>.<span class="pl-s1">concurrent</span>.<span class="pl-s1">CountDownLatch</span>;
+<pre lang="java" class="notranslate"><code class="notranslate">import java.util.concurrent.CountDownLatch;
 
 
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-smi">CountDownLatchUtil</span> {
+public class CountDownLatchUtil {
 
 
-    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-smi">void</span> <span class="pl-en">allOf</span>(<span class="pl-smi">Runnable</span>... <span class="pl-s1">runnableArray</span>) {
-        <span class="pl-k">if</span> (<span class="pl-en">arrayIsEmpty</span>(<span class="pl-s1">runnableArray</span>)) {
-            <span class="pl-k">return</span>;
+    public static void allOf(Runnable... runnableArray) {
+        if (arrayIsEmpty(runnableArray)) {
+            return;
         }
-        <span class="pl-smi">CountDownLatch</span> <span class="pl-s1">countDownLatch</span> = <span class="pl-k">new</span> <span class="pl-smi">CountDownLatch</span>(<span class="pl-s1">runnableArray</span>.<span class="pl-s1">length</span>);
-        <span class="pl-k">for</span> (<span class="pl-smi">Runnable</span> <span class="pl-s1">runnable</span> : <span class="pl-s1">runnableArray</span>) {
-            <span class="pl-c">//  建议使用线程池</span>
-            <span class="pl-k">new</span> <span class="pl-smi">Thread</span>(() -&gt; {
-                <span class="pl-s1">runnable</span>.<span class="pl-en">run</span>();
-                <span class="pl-s1">countDownLatch</span>.<span class="pl-en">countDown</span>();
-            }).<span class="pl-en">start</span>();
+        CountDownLatch countDownLatch = new CountDownLatch(runnableArray.length);
+        for (Runnable runnable : runnableArray) {
+            //  建议使用线程池
+            new Thread(() -&gt; {
+                runnable.run();
+                countDownLatch.countDown();
+            }).start();
         }
-        <span class="pl-k">try</span> {
-            <span class="pl-s1">countDownLatch</span>.<span class="pl-en">await</span>();
-        } <span class="pl-k">catch</span> (<span class="pl-smi">InterruptedException</span> <span class="pl-s1">e</span>) {
-            <span class="pl-s1">e</span>.<span class="pl-en">printStackTrace</span>();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
-    <span class="pl-k">private</span> <span class="pl-k">static</span> &lt;<span class="pl-smi">T</span>&gt; <span class="pl-smi">boolean</span> <span class="pl-en">arrayIsEmpty</span>(<span class="pl-smi">T</span>[] <span class="pl-s1">array</span>) {
-        <span class="pl-k">return</span> <span class="pl-s1">array</span> == <span class="pl-c1">null</span> || <span class="pl-s1">array</span>.<span class="pl-s1">length</span> == <span class="pl-c1">0</span>;
+    private static &lt;T&gt; boolean arrayIsEmpty(T[] array) {
+        return array == null || array.length == 0;
     }
-}</pre></div>
+}
+</code></pre>
 <p>使用示例:<br>
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/5pyx55CG5ri4/5pyx55CG5ri4.github.io/assets/50692323/9c458e5e-6dbc-4e98-b47a-59714052dc6e"><img src="https://github.com/5pyx55CG5ri4/5pyx55CG5ri4.github.io/assets/50692323/9c458e5e-6dbc-4e98-b47a-59714052dc6e" alt="image" style="max-width: 100%;"></a></p>
 <p>后面发现Java8提供了CompletableFuture也可以实现,但是感觉用起来没有自己写的简单<br>
 2.多线程并行操作集合<br>
 源码:</p>
-<div class="highlight highlight-source-java"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">java</span>.<span class="pl-s1">util</span>.<span class="pl-s1">ArrayList</span>;
-<span class="pl-k">import</span> <span class="pl-s1">java</span>.<span class="pl-s1">util</span>.<span class="pl-s1">Collection</span>;
-<span class="pl-k">import</span> <span class="pl-s1">java</span>.<span class="pl-s1">util</span>.<span class="pl-s1">List</span>;
-<span class="pl-k">import</span> <span class="pl-s1">java</span>.<span class="pl-s1">util</span>.<span class="pl-s1">function</span>.<span class="pl-s1">Consumer</span>;
+<pre lang="java" class="notranslate"><code class="notranslate">import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Consumer;
 
 
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-smi">AsyncHandleUtil</span> {
+public class AsyncHandleUtil {
 
-    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">final</span> <span class="pl-smi">int</span> <span class="pl-c1">DEFAULT_PAGE_SIZE</span> = <span class="pl-c1">1000</span>;
+    private static final int DEFAULT_PAGE_SIZE = 1000;
 
-    <span class="pl-k">public</span> <span class="pl-k">static</span> &lt;<span class="pl-smi">T</span>&gt; <span class="pl-smi">void</span> <span class="pl-en">asyncHandle</span>(<span class="pl-smi">List</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-s1">list</span>, <span class="pl-smi">Consumer</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-s1">action</span>, <span class="pl-smi">int</span> <span class="pl-s1">pageSize</span>) {
-        <span class="pl-k">if</span> (<span class="pl-en">collectionIsEmpty</span>(<span class="pl-s1">list</span>)) {
-            <span class="pl-k">return</span>;
+    public static &lt;T&gt; void asyncHandle(List&lt;T&gt; list, Consumer&lt;T&gt; action, int pageSize) {
+        if (collectionIsEmpty(list)) {
+            return;
         }
-        <span class="pl-smi">int</span> <span class="pl-s1">totalPage</span> = <span class="pl-en">totalPage</span>(<span class="pl-s1">list</span>.<span class="pl-en">size</span>(), <span class="pl-s1">pageSize</span>);
-        <span class="pl-k">for</span> (<span class="pl-smi">int</span> <span class="pl-s1">i</span> = <span class="pl-c1">0</span>; <span class="pl-s1">i</span> &lt; <span class="pl-s1">totalPage</span>; <span class="pl-s1">i</span>++) {
-            <span class="pl-smi">int</span> <span class="pl-s1">pageNum</span> = <span class="pl-s1">i</span> + <span class="pl-c1">1</span>;
-            <span class="pl-c">//  建议使用线程池</span>
-            <span class="pl-k">new</span> <span class="pl-smi">Thread</span>(() -&gt; {
-                <span class="pl-smi">List</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-s1">newDataList</span> = <span class="pl-en">getListPaging</span>(<span class="pl-s1">list</span>, <span class="pl-s1">pageNum</span>, <span class="pl-s1">pageSize</span>);
-                <span class="pl-k">for</span> (<span class="pl-smi">T</span> <span class="pl-s1">t</span> : <span class="pl-s1">newDataList</span>) {
-                    <span class="pl-s1">action</span>.<span class="pl-en">accept</span>(<span class="pl-s1">t</span>);
+        int totalPage = totalPage(list.size(), pageSize);
+        for (int i = 0; i &lt; totalPage; i++) {
+            int pageNum = i + 1;
+            //  建议使用线程池
+            new Thread(() -&gt; {
+                List&lt;T&gt; newDataList = getListPaging(list, pageNum, pageSize);
+                for (T t : newDataList) {
+                    action.accept(t);
                 }
-            }).<span class="pl-en">start</span>();
+            }).start();
         }
     }
 
 
-    <span class="pl-k">public</span> <span class="pl-k">static</span> &lt;<span class="pl-smi">T</span>&gt; <span class="pl-smi">void</span> <span class="pl-en">asyncHandle</span>(<span class="pl-smi">List</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-s1">list</span>, <span class="pl-smi">Consumer</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-s1">action</span>) {
-        <span class="pl-en">asyncHandle</span>(<span class="pl-s1">list</span>, <span class="pl-s1">action</span>, <span class="pl-c1">DEFAULT_PAGE_SIZE</span>);
+    public static &lt;T&gt; void asyncHandle(List&lt;T&gt; list, Consumer&lt;T&gt; action) {
+        asyncHandle(list, action, DEFAULT_PAGE_SIZE);
     }
 
 
-    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-smi">int</span> <span class="pl-en">totalPage</span>(<span class="pl-smi">int</span> <span class="pl-s1">totalCount</span>, <span class="pl-smi">int</span> <span class="pl-s1">pageSize</span>) {
-        <span class="pl-k">if</span> (<span class="pl-s1">pageSize</span> == <span class="pl-c1">0</span>) {
-            <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-        } <span class="pl-k">else</span> {
-            <span class="pl-k">return</span> <span class="pl-s1">totalCount</span> % <span class="pl-s1">pageSize</span> == <span class="pl-c1">0</span> ? <span class="pl-s1">totalCount</span> / <span class="pl-s1">pageSize</span> : <span class="pl-s1">totalCount</span> / <span class="pl-s1">pageSize</span> + <span class="pl-c1">1</span>;
+    private static int totalPage(int totalCount, int pageSize) {
+        if (pageSize == 0) {
+            return 0;
+        } else {
+            return totalCount % pageSize == 0 ? totalCount / pageSize : totalCount / pageSize + 1;
         }
     }
 
 
-    <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-smi">boolean</span> <span class="pl-en">collectionIsEmpty</span>(<span class="pl-smi">Collection</span>&lt;?&gt; <span class="pl-s1">collection</span>) {
-        <span class="pl-k">return</span> <span class="pl-s1">collection</span> == <span class="pl-c1">null</span> || <span class="pl-s1">collection</span>.<span class="pl-en">isEmpty</span>();
+    private static boolean collectionIsEmpty(Collection&lt;?&gt; collection) {
+        return collection == null || collection.isEmpty();
     }
 
 
-    <span class="pl-k">private</span> <span class="pl-k">static</span> &lt;<span class="pl-smi">T</span>&gt; <span class="pl-smi">List</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-en">getListPaging</span>(<span class="pl-smi">List</span>&lt;<span class="pl-smi">T</span>&gt; <span class="pl-s1">list</span>, <span class="pl-smi">int</span> <span class="pl-s1">pageNum</span>, <span class="pl-smi">int</span> <span class="pl-s1">pageSize</span>) {
-        <span class="pl-k">if</span> (<span class="pl-en">collectionIsEmpty</span>(<span class="pl-s1">list</span>)) {
-            <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-smi">ArrayList</span>&lt;&gt;(<span class="pl-c1">0</span>);
+    private static &lt;T&gt; List&lt;T&gt; getListPaging(List&lt;T&gt; list, int pageNum, int pageSize) {
+        if (collectionIsEmpty(list)) {
+            return new ArrayList&lt;&gt;(0);
         }
-        <span class="pl-smi">int</span> <span class="pl-s1">startIndex</span> = (<span class="pl-s1">pageNum</span> - <span class="pl-c1">1</span>) * <span class="pl-s1">pageSize</span>;
-        <span class="pl-smi">int</span> <span class="pl-s1">endIndex</span> = <span class="pl-s1">pageNum</span> * <span class="pl-s1">pageSize</span>;
-        <span class="pl-smi">int</span> <span class="pl-s1">total</span> = <span class="pl-s1">list</span>.<span class="pl-en">size</span>();
-        <span class="pl-smi">int</span> <span class="pl-s1">pageCount</span>;
-        <span class="pl-smi">int</span> <span class="pl-s1">num</span> = <span class="pl-s1">total</span> % <span class="pl-s1">pageSize</span>;
-        <span class="pl-k">if</span> (<span class="pl-s1">num</span> == <span class="pl-c1">0</span>) {
-            <span class="pl-s1">pageCount</span> = <span class="pl-s1">total</span> / <span class="pl-s1">pageSize</span>;
-        } <span class="pl-k">else</span> {
-            <span class="pl-s1">pageCount</span> = <span class="pl-s1">total</span> / <span class="pl-s1">pageSize</span> + <span class="pl-c1">1</span>;
+        int startIndex = (pageNum - 1) * pageSize;
+        int endIndex = pageNum * pageSize;
+        int total = list.size();
+        int pageCount;
+        int num = total % pageSize;
+        if (num == 0) {
+            pageCount = total / pageSize;
+        } else {
+            pageCount = total / pageSize + 1;
         }
-        <span class="pl-k">if</span> (<span class="pl-s1">pageNum</span> == <span class="pl-s1">pageCount</span>) {
-            <span class="pl-s1">endIndex</span> = <span class="pl-s1">total</span>;
+        if (pageNum == pageCount) {
+            endIndex = total;
         }
-        <span class="pl-k">return</span> <span class="pl-s1">list</span>.<span class="pl-en">subList</span>(<span class="pl-s1">startIndex</span>, <span class="pl-s1">endIndex</span>);
+        return list.subList(startIndex, endIndex);
     }
-}</pre></div>
+}
+</code></pre>
 <p>使用示例:<br>
 <a target="_blank" rel="noopener noreferrer" href="https://github.com/5pyx55CG5ri4/5pyx55CG5ri4.github.io/assets/50692323/728ade16-98fe-4c5a-bcce-de7e6bed5cd9"><img src="https://github.com/5pyx55CG5ri4/5pyx55CG5ri4.github.io/assets/50692323/728ade16-98fe-4c5a-bcce-de7e6bed5cd9" alt="image" style="max-width: 100%;"></a></p>
 <p>跟Java8的并行流操作差不多,但是更灵活</p></div>
