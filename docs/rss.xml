@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>5pyx55CG5ri4</title><link>https://blog.000828.top/</link><description>永远相信美好的事情即将发生</description><copyright>5pyx55CG5ri4</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/50692323?v=4&amp;size=64</url><title>avatar</title><link>https://blog.000828.top/</link></image><lastBuildDate>Sun, 18 Aug 2024 13:03:28 +0000</lastBuildDate><managingEditor>5pyx55CG5ri4</managingEditor><ttl>60</ttl><webMaster>5pyx55CG5ri4</webMaster><item><title>七夕+澳门</title><link>https://blog.000828.top//post/qi-xi-%2B-ao-men.html</link><description>## 第2个七夕节啦 &#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>5pyx55CG5ri4</title><link>https://blog.000828.top/</link><description>永远相信美好的事情即将发生</description><copyright>5pyx55CG5ri4</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/50692323?v=4&amp;size=64</url><title>avatar</title><link>https://blog.000828.top/</link></image><lastBuildDate>Tue, 10 Sep 2024 02:53:02 +0000</lastBuildDate><managingEditor>5pyx55CG5ri4</managingEditor><ttl>60</ttl><webMaster>5pyx55CG5ri4</webMaster><item><title>七夕+澳门</title><link>https://blog.000828.top//post/qi-xi-%2B-ao-men.html</link><description>## 第2个七夕节啦 &#13;
 ### 米粉狂喜的七夕礼物&#13;
 `Gmeek-html&lt;img src='https://img.000828.top/file/2960670b7cdf5af6d6b24.jpg'&gt;`&#13;
 ### 心心念念的澳门之旅&#13;
@@ -375,6 +375,13 @@ myisam和innodb的区别&lt;br /&gt;myisam 不支持事务 文件存储分为两
 ### limit 大数据量优化&#13;
 &lt;a name='MJmJe'&gt;&lt;/a&gt;&#13;
 ## liunx&#13;
+ 1. 常用命令 &#13;
+ 2. 远程复制的命令 scp 传输文件夹 -r&#13;
+&#13;
+## 数据加密&#13;
+ 1. 加密方式&#13;
+ 3. 对称加密和非对称加密&#13;
+ 4. 国密&#13;
 &#13;
 last:20240625。</description><guid isPermaLink="true">https://blog.000828.top//post/Java--mian-shi-zong-jie---chi-xu-geng-xin.html</guid><pubDate>Tue, 25 Jun 2024 09:53:14 +0000</pubDate></item><item><title>Java-线程工具</title><link>https://blog.000828.top//post/Java--xian-cheng-gong-ju.html</link><description>1.多个线程并行执行,主线程阻塞等待所有子线程执行完(CountDownLatch实现)&#13;
 源码:&#13;
