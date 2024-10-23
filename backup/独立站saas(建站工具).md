@@ -6,12 +6,12 @@
 -   移动设备管理能力，包括iOS和Android应用
 -   24小时客户支持以及庞大的用户社区
 -   支持在线客服
-#### 套餐价格 
+### 套餐价格 
 新账号免费试用3天 首月所有套餐1$ 开通套餐需要海外信用卡
 
 ![image](https://github.com/user-attachments/assets/e6891700-14ff-4737-b673-f11a18167a35)
 
-#### 支付费率
+### 支付费率
 
 除去套餐收取的第三方支付服务费
 ![image](https://github.com/user-attachments/assets/18b2cf36-4b1b-40c6-bb47-b41a96c1198e)
